@@ -34,14 +34,24 @@ class FirstScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('First Screen'),
       ),
-      body: PageView.builder(
-        itemBuilder: (context, index) => Container(
-            color: Colors.cyan,
-            margin: const EdgeInsets.all(10),
-            child: Center(
-              child: Text(slides[index]),
-            )),
-        itemCount: slides.length,
+      body: NotificationListener<OverscrollNotification>(
+        onNotification: (OverscrollNotification overscrollNotification) {
+          if(overscrollNotification.overscroll < 10) {
+            return false;
+          }
+
+          Navigator.pushNamed(context, '/second');
+          return true;
+        },
+        child: PageView.builder(
+          itemBuilder: (context, index) => Container(
+              color: Colors.cyan,
+              margin: const EdgeInsets.all(10),
+              child: Center(
+                child: Text(slides[index]),
+              )),
+          itemCount: slides.length,
+        ),
       ),
     );
   }
